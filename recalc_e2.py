@@ -27,17 +27,6 @@ class FockMatrix:
         self.fm[self.cur_col][self.cur_row] = newnum
         self.cur_col += 1
 
-def gete2lines(lines):
-    for i, line in enumerate(lines):
-        if "Second Order Perturbation Theory Analysis of Fock Matrix in NBO Basis" in line:
-            start = i + 8
-    for i, line in enumerate(lines):
-        if "Natural Bond Orbitals (Summary):" in line:
-            end = i - 2
-    if 'start' not in locals() or 'end' not in locals():
-        raise Exception("Can't find second order analysis section")
-    return start, end
-
 def getocc(occ, lines):
     count = 0
     for line in lines:
@@ -66,7 +55,6 @@ for logfile in glob.glob("./*.log"):
         if "Total Lewis" in line:
             occend = i - 1
 
-    e2start, e2end = gete2lines(loglines)
     myfm = FockMatrix(logfile.replace(".log", ".69").upper(), nbasis)
     occ = np.empty(nbasis)
     getocc(occ, loglines[occstart:occend])
